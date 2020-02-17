@@ -1,0 +1,30 @@
+meat	beef patty	Horned,Bull's	Barbeque	10
+meat	pork patty	Pulled,Squeaking	Livestock	5
+meat	lamb patty	Gourmet,Sacrificial	Sheep	3
+meat	cat patty	meowing,feral	tiger,panther	1
+meat	boar patty	feral,wild	Tusk	2
+patties	one			10
+patties	two			5
+patties	three			1
+veggie	lettuce	leafy,crisp	longifolia	1
+veggie	tomato	rotten	berry	1
+veggie	onion	crying	bulb	1
+veggie	beetroot	bloody	taproot	1
+veggie	plum	ripe	mirabelle	1
+bun	potato bun	potato,irish	potato	1
+bun	ciabatta roll	italian	Verona	1
+bun	kaiser roll	prussian	kaisersemmel	1
+bun	gluten free bun	healthy	intolerance	1
+bun	pretzel roll	german	monk	1
+drink	vodka			1
+drink	orange juice			1
+drink	bleach			1
+drink	apple juice			1
+drink	capri sun			1
+temp	warm			1
+temp	cold			1
+cheese	goat cheese	sacrificial	extravaganza	1
+cheese	cheddar	creamy,processed	Somerset	1
+cheese	tofu	meatless	asian	1
+cheese	feta	mediterranean	Hellan	1
+cheese	Bleu de Gex	pretentious	frenchman	1

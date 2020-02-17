@@ -1,0 +1,13 @@
+{
+	"origin": ["#burger#. Best served with glass of #temp# #drink#."],
+	"patties":["Two","Two", "Two", "Two", "Two", "Two","Three","Three","Three","Four"],
+	"burger" : ["#patties# 110% #meat# patties, a slice of #cheese#, and #veggie# #bun#"],
+	"cheese" : ["white cheese", "goat cheese", "cheddar","tofu" ],
+	"meat":["beef","beef","beef", "pork","beef", "pork", "cat", "lamb"],
+	"veggie":["lettuce has to be called 'Leafy", "tomato has to be called 'Rotten", "onion has to be called 'Crying", "beetroot has to be called 'Bloody "],
+	"bun":["Irish' since it is in a delicious  potato bun", "Italian' since it is in a delicious  ciabatta roll", " Prussian ' since it is in a delicious  kaiser roll", "German' since it is in a delicious  pretzel roll"],
+	"drink":["vodka","orange juice", "bleach","apple juice","capri sun"],
+	"temp":["warm", "cold"]
+}
+
+
