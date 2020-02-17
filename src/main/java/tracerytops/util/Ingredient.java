@@ -10,6 +10,7 @@ public class Ingredient {
 	private String name;
 	private List<String> prefixes = new LinkedList<>();
 	private List<String> suffixes = new LinkedList<>();
+	private List<String> tags = new LinkedList<>();
 	
 	public Ingredient(String className, String name) {
 		this.className = className.toLowerCase();
@@ -18,11 +19,34 @@ public class Ingredient {
 	}
 	
 	public void addPrefix(String prefix) {
-		prefixes.add(prefix);
+		prefixes.add(prefix.toLowerCase());
+	}
+	
+	public void addPrefixes(String[] prefixes) {
+		for (String prefix : prefixes)
+			this.prefixes.add(prefix.strip().toLowerCase());
 	}
 	
 	public void addSuffix(String suffix) {
-		suffixes.add(suffix);
+		suffixes.add(suffix.toLowerCase());
+	}
+	
+	public void addSuffixes(String[] suffixes) {
+		for (String suffix: suffixes)
+			this.suffixes.add(suffix.strip().toLowerCase());
+	}
+	
+	public void addTag(String tag) {
+		this.tags.add(tag.toLowerCase());
+	}
+	
+	public void addTags(String[] tags) {
+		for (String tag:tags)
+			this.tags.add(tag.strip().toLowerCase());
+	}
+	
+	public List<String> getTags() {
+		return tags;
 	}
 	
 	public List<String> generatePrefixes() {
@@ -73,7 +97,7 @@ public class Ingredient {
 	}
 
 	public void setClassName(String className) {
-		this.className = className;
+		this.className = className.toLowerCase();
 	}
 
 	public String getName() {
@@ -81,7 +105,7 @@ public class Ingredient {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.toLowerCase();
 	}
 
 	public List<String> getPrefixes() {

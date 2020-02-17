@@ -15,11 +15,12 @@ public class Start {
 	
 	public static void main(String[] args) {
 		//System.out.println(args[1]);
-		List<Ingredient> ingredients = new IngredientUtil().generateFromTsv(args[1]);
+		List<Ingredient> ingredients = new IngredientUtil().generateFromTsv(args[0], true);
+		System.out.println(ingredients);
 		Tracery t = buildTracery(ingredients);
 		t.addToTag("origin", "This wonderful burger with #prefixSuffixMix#");
 		System.out.println(t.getJsonString());
-
+	
 	}
 	
 	public static Tracery createTraceryFromJsonFile(String path) {
@@ -45,6 +46,7 @@ public class Start {
 		tb.addIngredients(t, ingredients);
 		
 		tb.addSuffixPrefixMixes2(t, ingredients);
+		tb.addTaggedIngredients(t, ingredients);
 		return t;
 	}
 	
