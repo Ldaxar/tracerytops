@@ -116,6 +116,33 @@ public class Ingredient {
 		return suffixes;
 	}
 	
+	public void setPrefixes(List<String> prefixes) {
+		this.prefixes = prefixes;
+	}
+
+	public void setSuffixes(List<String> suffixes) {
+		this.suffixes = suffixes;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
+
+	public Ingredient clone() {
+		Ingredient clone = new Ingredient(className, name);
+		/*
+		List<String> prefixes = new ArrayList<String>();
+		List<String> suffixes = new ArrayList<String>();
+		List<String> tags = new ArrayList<String>();
+		prefixes.addAll(this.prefixes);
+		suffixes.addAll(arg0);
+		*/
+		clone.setPrefixes(prefixes);
+		clone.setSuffixes(suffixes);
+		clone.setTags(tags);
+		return clone;
+	}
+	
 	
 	
 	

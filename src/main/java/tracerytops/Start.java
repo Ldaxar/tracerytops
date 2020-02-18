@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import tracerytops.util.Ingredient;
@@ -11,18 +12,39 @@ import tracerytops.util.IngredientUtil;
 import tracerytops.util.TraceryBuilder;
 
 public class Start {
-
-	
+	//This main method expects path to ingredients tsv file in args[0]
 	public static void main(String[] args) {
-		//System.out.println(args[1]);
-		List<Ingredient> ingredients = new IngredientUtil().generateFromTsv(args[0], true);
-		System.out.println(ingredients);
-		Tracery t = buildTracery(ingredients);
+		if (args.length<1) {
+			args = new String[1];
+			args[0] = "ingredients.tsv";
+		}
+		IngredientUtil iu = new IngredientUtil();
+		//Read ingredients from file and construct java list of ingredients from it
+		//Ingredient object is base for any tracery generation
+		List<Ingredient> ingredients = iu.generateFromTsv(args[0], true);
+		//Multiply each ingredient by tags (e.g. spicy, slaty etc)
+		Map<String, List<Ingredient>> map = iu.splitIngredientsByCategory(ingredients);
+		//Dish that has nothing special about it has a key that is an empty string
+		map.put("", ingredients);
+		//Tracery builder is a main class to create/modify tracery out of ingredients
+		TraceryBuilder tb = new TraceryBuilder();
+		Tracery t = new Tracery();
+		//Generate content for each tag. E.g spicy_veggies, spicy_meat, spicy_buns...
+		for (Map.Entry<String, List<Ingredient>> e : map.entrySet()) {
+			tb.addIngredients(t, e.getValue());
+			tb.addPreffixesAndSuffixes(t, e.getValue());
+			tb.addSuffixPrefixMixes(t, e.getValue(),e.getKey());
+		}
+		//Add origin, so CBDQ can generate tweets
 		t.addToTag("origin", "This wonderful burger with #prefixSuffixMix#");
+		//Create response grammar
+		Tracery rt = new Tracery();
+		tb.createResponseGrammar(rt, map.keySet());
+		System.out.println(rt.getJsonString());
 		System.out.println(t.getJsonString());
-	
 	}
 	
+	//Small util to generate Tracery object from text file, which contains JSON
 	public static Tracery createTraceryFromJsonFile(String path) {
 		StringBuilder sb = new StringBuilder();
 		
@@ -34,33 +56,4 @@ public class Start {
 	    }
 		return new Tracery(sb.toString());
 	}
-	
-	public static Tracery buildTracery(List<Ingredient> ingredients) {
-		TraceryBuilder tb = new TraceryBuilder();
-		Tracery t = new Tracery();
-		long start = System.currentTimeMillis();
-		t = tb.addPreffixesAndSuffixes(t, ingredients);
-		long end = System.currentTimeMillis();
-		System.out.println("Time: "+(end-start));
-		
-		tb.addIngredients(t, ingredients);
-		
-		tb.addSuffixPrefixMixes2(t, ingredients);
-		tb.addTaggedIngredients(t, ingredients);
-		return t;
-	}
-	
-	public static void run1(String[] args) {
-		Tracery tracery = createTraceryFromJsonFile(args[0]);
-		System.out.println(tracery.getTag("drink"));
-		tracery.addToTag("drink", "chujo");
-		System.out.println(tracery.getTag("drink"));
-		System.out.println(tracery.getJsonString());
-	}
-	
-	
-	
-	
-	
-
 }

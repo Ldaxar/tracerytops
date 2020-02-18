@@ -16,7 +16,7 @@ public class Tracery {
 		JSONObject jo = new JSONObject(jsonString);
 		Map<String,List<String>> complete = new HashMap<>();
 		
-		jo.toMap().entrySet().parallelStream().forEach(e -> {
+		jo.toMap().entrySet().stream().forEach(e -> {
 			complete.put(e.getKey(), (List<String>)e.getValue());
 		});
 		

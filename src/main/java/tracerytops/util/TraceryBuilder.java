@@ -1,14 +1,23 @@
 package tracerytops.util;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import tracerytops.Tracery;
-
+/**
+ * 
+ * @author stargarth
+ * Tracery builder is a main class to create/modify tracery out of Ingredient instances
+ */
 public class TraceryBuilder {
 	IngredientUtil util = new IngredientUtil();
-
+	/**
+	 * 
+	 * @param t - Current tracery object that will augmented with new prefixes and suffixes
+	 * @param ingredients - List of ingredients that will serve as source material to create prefs and suffs
+	 * @return Same tracery object as input t, but with preffs and suffs added
+	 */
 	public Tracery addPreffixesAndSuffixes(Tracery t, List<Ingredient> ingredients) {
 		for (Ingredient ingredient : ingredients) {
 			List<String> list = ingredient.generatePrefixes();
@@ -22,47 +31,16 @@ public class TraceryBuilder {
 		}
 		return t;
 	}
-
-	public Tracery addSuffixPrefixMixes(Tracery t, List<Ingredient> ingredients) {
-		String key = "prefixSuffixMix";
-		StringBuilder sb = new StringBuilder();
-		HashSet<String> processedPrefixes = new HashSet<>();
-		HashSet<String> processedSuffixes = new HashSet<>();
-		System.out.println(ingredients.size());
-		for (int i = 0; i < ingredients.size(); i++) {
-			Ingredient prefixIngredient = ingredients.get(i);
-			if (prefixIngredient.isPrefixEligible() && !processedPrefixes.contains(prefixIngredient.getClassName())) {
-				processedPrefixes.add(prefixIngredient.getClassName());
-				for (int j = i; j < ingredients.size(); j++) {
-					Ingredient suffixIngredient = ingredients.get(j);
-					if (suffixIngredient.getClassName() == prefixIngredient.getClassName())
-						continue;
-					if (suffixIngredient.isPrefixEligible()
-							&& !processedSuffixes.contains(suffixIngredient.getClassName())) {
-
-						processedSuffixes.add(suffixIngredient.getClassName());
-						sb.append('#');
-						sb.append(prefixIngredient.getClassName());
-						sb.append(Modifiers.Prefix);
-						sb.append("# #");
-						sb.append(suffixIngredient.getClassName());
-						sb.append(Modifiers.Suffix);
-						sb.append("#");
-						System.out.println(sb.toString());
-						sb = new StringBuilder();
-					}
-				}
-				processedSuffixes = new HashSet<String>();
-
-			}
-
-		}
-
-		return t;
-	}
-
-	public Tracery addSuffixPrefixMixes2(Tracery t, List<Ingredient> ingredients) {
-		String key = "prefixSuffixMix";
+	/**
+	 * 
+	 * @param t - Current tracery object that will augmented with new prefix+suffix combinations
+	 * 
+	 * @param ingredients - List of ingredients that will serve as source material to create prefix+suffix combos.
+	 * @param tag - Modifier that is used to name pref+suff combo. For instance: tag=spicy will result in "spicyprefixSuffixMix" name
+	 * @return Same tracery object as input t, but with preffs+suffs combinations added
+	 */
+	public Tracery addSuffixPrefixMixes(Tracery t, List<Ingredient> ingredients, String tag) {
+		String key = tag+Modifiers.prefixSuffixMix;
 		List<String> uniqueClasses = util.getUniquePrefixSuffixClasses(ingredients);
 		List<String> mixes = new ArrayList<String>();
 		StringBuilder sb = new StringBuilder();
@@ -79,7 +57,6 @@ public class TraceryBuilder {
 						sb = addNonTerminal(sb, string);
 					}
 				}
-				System.out.println(sb.toString());
 				mixes.add(sb.toString());
 				sb = new StringBuilder();
 			}
@@ -95,7 +72,12 @@ public class TraceryBuilder {
 		sb.append('#');
 		return sb;
 	}
-
+	/**
+	 * 
+	 * @param t - Current tracery object that will augmented with new ingredients
+	 * @param ingredients - List of ingredients that will be added to Tracery object
+	 * @return Same tracery object as t, but with ingredients added
+	 */
 	public Tracery addIngredients(Tracery t, List<Ingredient> ingredients) {
 		for (Ingredient ingredient : ingredients) {
 			for (int i = 0; i < ingredient.getMultiplier(); i++) {
@@ -104,13 +86,26 @@ public class TraceryBuilder {
 		}
 		return t;
 	}
-
-	public Tracery addTaggedIngredients(Tracery t, List<Ingredient> ingredients) {
-		for (Ingredient ingredient : ingredients) {
-			for (String tag : ingredient.getTags()) {
-				t.addToTag(ingredient.getClassName() + tag, ingredient.getName());
-			}
+	
+	public Tracery createResponseGrammar(Tracery t, Set<String> tags) {
+		for (String tag : tags) {
+			if (tag!="")
+				t.addToTag(regexsize(tag), tag+Modifiers.prefixSuffixMix);
 		}
+		t.addToTag(".", Modifiers.prefixSuffixMix.toString());
 		return t;
+	}
+	
+	private String regexsize(String s) {
+		StringBuilder sb = new StringBuilder();
+		for (int i=0;i<s.length();i++) {
+			Character c = s.charAt(i);
+			sb.append('[');
+			sb.append(Character.toUpperCase(c));
+			sb.append('|');
+			sb.append(Character.toLowerCase(c));
+			sb.append(']');
+		}
+		return sb.toString();
 	}
 }
