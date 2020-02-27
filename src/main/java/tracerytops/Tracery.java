@@ -1,6 +1,7 @@
 package tracerytops;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,12 +43,12 @@ public class Tracery {
 		}
 	}
 	
-	public void addToTag(String key, List<String> newEntry) {
+	public void addToTag(String key, Collection<String> newEntry) {
 		if (tagsMap.containsKey(key)) {
 			tagsMap.get(key).addAll(newEntry); 
 		}
 		else {
-			tagsMap.put(key, newEntry);
+			tagsMap.put(key, new ArrayList<>(newEntry));
 		}
 	}
 	
@@ -56,7 +57,7 @@ public class Tracery {
 	}
 
 	
-	public String getJsonString() {
+	public String toJson() {
 		return new JSONObject(tagsMap).toString();
 	}
 }

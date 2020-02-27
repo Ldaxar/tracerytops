@@ -1,16 +1,17 @@
-package tracerytops.util;
+package tracerytops.hamburger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import tracerytops.Tracery;
+import tracerytops.util.Modifiers;
 /**
  * 
  * @author stargarth
  * Tracery builder is a main class to create/modify tracery out of Ingredient instances
  */
-public class TraceryBuilder {
+public class TraceryBurgerBuilder {
 	IngredientUtil util = new IngredientUtil();
 	/**
 	 * 

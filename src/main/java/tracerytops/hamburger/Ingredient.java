@@ -1,4 +1,4 @@
-package tracerytops.util;
+package tracerytops.hamburger;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

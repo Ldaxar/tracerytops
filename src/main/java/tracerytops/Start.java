@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import tracerytops.util.Ingredient;
-import tracerytops.util.IngredientUtil;
-import tracerytops.util.TraceryBuilder;
+import tracerytops.hamburger.Ingredient;
+import tracerytops.hamburger.IngredientUtil;
+import tracerytops.hamburger.TraceryBurgerBuilder;
 
 public class Start {
 	//This main method expects path to ingredients tsv file in args[0]
@@ -27,7 +27,7 @@ public class Start {
 		//Dish that has nothing special about it has a key that is an empty string
 		map.put("", ingredients);
 		//Tracery builder is a main class to create/modify tracery out of ingredients
-		TraceryBuilder tb = new TraceryBuilder();
+		TraceryBurgerBuilder tb = new TraceryBurgerBuilder();
 		Tracery t = new Tracery();
 		//Generate content for each tag. E.g spicy_veggies, spicy_meat, spicy_buns...
 		for (Map.Entry<String, List<Ingredient>> e : map.entrySet()) {
@@ -40,8 +40,8 @@ public class Start {
 		//Create response grammar
 		Tracery rt = new Tracery();
 		tb.createResponseGrammar(rt, map.keySet());
-		System.out.println(rt.getJsonString());
-		System.out.println(t.getJsonString());
+		System.out.println(rt.toJson());
+		System.out.println(t.toJson());
 	}
 	
 	//Small util to generate Tracery object from text file, which contains JSON
